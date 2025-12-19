@@ -1,5 +1,5 @@
-import Header from "../header/Header";
-import Hero from "../hero/Hero";
+import Header from "../components/header/Header";
+import Hero from "../components/hero/Hero";
 
 export default function MainLayout() {
   return (

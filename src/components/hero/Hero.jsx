@@ -8,7 +8,10 @@ import {
   LuCircleCheck,
   LuClock,
   LuSearch,
-  LuFilter
+  LuFilter,
+  LuCircleAlert,
+  LuEllipsisVertical,
+  LuEye
 } from "react-icons/lu";
 
 export default function Hero() {
@@ -250,7 +253,7 @@ export default function Hero() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {stats.map((stat, index) => (
               <div
                 key={index}
@@ -279,8 +282,8 @@ export default function Hero() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
                   activeTab === tab.id
-                    ? "bg-white text-sky-900 shadow-lg scale-105"
-                    : "text-white hover:bg-cyan-600/70"
+                    ? "bg-white text-sky-900 shadow-lg scale-100"
+                    : "text-white hover:backdrop-blur-sm"
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -295,7 +298,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
           {/* Search and Filter Bar */}
-          <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-8 py-6 border-b border-slate-200">
+          <div className="bg-gradient-to-t from-stone-200 to-stone-300 px-8 py-6 border-b border-slate-200">
             <div className="flex items-center justify-between">
               <div className="flex-1 max-w-md relative">
                 <LuSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
@@ -373,7 +376,7 @@ export default function Hero() {
                           </span>
                         </div>
                         <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
-                          <MoreVertical className="w-5 h-5 text-slate-600" />
+                          <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
                         </button>
                       </div>
                     </div>
@@ -400,7 +403,7 @@ export default function Hero() {
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center">
-                          <Building2 className="w-6 h-6 text-white" />
+                          <LuBuilding2 className="w-6 h-6 text-white" />
                         </div>
                         <div>
                           <h3 className="font-semibold text-slate-800 text-lg">
@@ -430,7 +433,7 @@ export default function Hero() {
                           </span>
                         </div>
                         <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
-                          <MoreVertical className="w-5 h-5 text-slate-600" />
+                          <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
                         </button>
                       </div>
                     </div>
@@ -457,7 +460,7 @@ export default function Hero() {
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
-                          <CreditCard className="w-6 h-6 text-white" />
+                          <LuCreditCard className="w-6 h-6 text-white" />
                         </div>
                         <div>
                           <h3 className="font-semibold text-slate-800 text-lg">
@@ -487,7 +490,7 @@ export default function Hero() {
                           </span>
                         </div>
                         <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
-                          <MoreVertical className="w-5 h-5 text-slate-600" />
+                          <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
                         </button>
                       </div>
                     </div>
@@ -503,7 +506,7 @@ export default function Hero() {
                     Transaction Monitoring
                   </h2>
                   <button className="px-5 py-2.5 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors font-medium flex items-center space-x-2">
-                    <Eye className="w-5 h-5" />
+                    <LuEye className="w-5 h-5" />
                     <span>View All</span>
                   </button>
                 </div>
@@ -515,7 +518,7 @@ export default function Hero() {
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center">
-                          <ArrowLeftRight className="w-6 h-6 text-white" />
+                          <LuArrowLeftRight className="w-6 h-6 text-white" />
                         </div>
                         <div>
                           <h3 className="font-semibold text-slate-800 text-lg">
@@ -547,7 +550,7 @@ export default function Hero() {
                           </span>
                         </div>
                         <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
-                          <MoreVertical className="w-5 h-5 text-slate-600" />
+                          <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
                         </button>
                       </div>
                     </div>
