@@ -1,11 +1,11 @@
-import axiosClient from "./axiosClient";
+import api from "./axiosClient";
 
 export const adminLogin = async (credentials) => {
-  const res = await axiosClient.post("/admin/login", credentials);
-  return res.data; // { admin }
+  const res = await api.post("/admin/login", credentials);
+  return res.data;
 };
 
 export const getMe = async () => {
-  const res = await axiosClient.get("/admin/me");
+  const res = await api.get("/admin/me");
   return res.data;
 };
