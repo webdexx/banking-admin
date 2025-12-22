@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuLock, LuUserRound, LuKeyRound } from "react-icons/lu";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStore } from "../../../stores/store";
 
 export default function TwoStepLogin() {
-//  const navigate = useNavigate();
+   const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  const login = useStore((s) => s.login);
+  const { login, fetchMe, isAuthenticated, authLoading } = useStore();
+
+  useEffect(() => {
+    document.title = "Admin Login";
+    fetchMe();
+  }, [fetchMe]);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -30,17 +35,28 @@ export default function TwoStepLogin() {
   };
 
   const handleLogin = async () => {
-    const result = await login({
-      username: formData.username,
+    const payload = {
       password: formData.password,
-      pin: formData.pin,
-    });
+      pin: formData.pin.join(""),
+    };
+
+    if (formData.username.includes("@")) {
+      payload.email = formData.username;
+    } else {
+      payload.mobileNo = formData.username;
+    }
+
+    const result = await login(payload);
 
     if (!result.success) {
       setError(result.message);
+      return;
     }
 
-  //  navigate("/", { replace: true });
+    if(isAuthenticated) {
+     navigate("/admin", { replace: true });
+    }
+
   };
 
   /* ---------------- PIN HANDLERS ---------------- */
@@ -93,9 +109,7 @@ export default function TwoStepLogin() {
         {/* Progress */}
         <div className="flex gap-2 mb-8">
           <div
-            className={`h-1 flex-1 ${
-              step >= 1 ? "bg-sky-500" : "bg-gray-200"
-            }`}
+            className={`h-1 flex-1 ${step >= 1 ? "bg-sky-500" : "bg-gray-200"}`}
           />
           <div
             className={`h-1 flex-1 duration-300 ease-in-out ${
@@ -106,7 +120,7 @@ export default function TwoStepLogin() {
 
         <form onSubmit={handleStep1Submit} className="space-y-5">
           {/* STEP 1 */}
-          {step === 1 && (
+          {!authLoading && step === 1 && (
             <div>
               <div>
                 <label className="block text-sm font-medium my-2">
@@ -165,7 +179,7 @@ export default function TwoStepLogin() {
           )}
 
           {/* STEP 2 */}
-          {step === 2 && (
+          {!authLoading && step === 2 && (
             <div>
               <div className="text-center">
                 <LuKeyRound className="w-12 h-12 mx-auto text-sky-800 mb-3" />
@@ -207,6 +221,7 @@ export default function TwoStepLogin() {
               </button>
             </div>
           )}
+          {authLoading && <h1>Logging In...</h1>}
         </form>
       </div>
     </div>

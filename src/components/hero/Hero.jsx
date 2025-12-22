@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LuBuilding2,
   LuUsers,
@@ -11,15 +11,25 @@ import {
   LuFilter,
   LuCircleAlert,
   LuEllipsisVertical,
-  LuEye
+  LuEye,
+  LuClipboardX,
 } from "react-icons/lu";
+import { useStore } from "../../stores/store.js";
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const { users, fetchUsers } = useStore();
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  console.log(users);
+
   const stats = [
-    { label: "Total Users", value: "12,847", change: "+12%", icon: LuUsers },
+    { label: "Total Users", value: users.length, change: "+10%", icon: LuUsers },
     {
       label: "Active Accounts",
       value: "45,231",
@@ -37,41 +47,6 @@ export default function Hero() {
       value: "89,234",
       change: "+23%",
       icon: LuArrowLeftRight,
-    },
-  ];
-
-  const users = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      email: "sarah.j@email.com",
-      status: "active",
-      kyc: "approved",
-      joinDate: "2024-01-15",
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      email: "m.chen@email.com",
-      status: "pending",
-      kyc: "pending",
-      joinDate: "2024-03-22",
-    },
-    {
-      id: 3,
-      name: "Emma Williams",
-      email: "emma.w@email.com",
-      status: "active",
-      kyc: "approved",
-      joinDate: "2024-02-08",
-    },
-    {
-      id: 4,
-      name: "James Rodriguez",
-      email: "j.rod@email.com",
-      status: "suspended",
-      kyc: "rejected",
-      joinDate: "2024-03-01",
     },
   ];
 
@@ -180,6 +155,14 @@ export default function Hero() {
     },
   ];
 
+  const getAccountStatus = (isActive) => {
+    return isActive ? "active" : "suspended";
+  };
+
+  const getKycStatus = (flag) => {
+    return flag.toLowerCase(); // "APPROVED" → "approved"
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case "active":
@@ -214,7 +197,7 @@ export default function Hero() {
       case "failed":
         return <LuCircleAlert className="w-4 h-4" />;
       default:
-        return <LuClipboardX  className="w-4 h-4" />;
+        return <LuClipboardX className="w-4 h-4" />;
     }
   };
 
@@ -332,18 +315,21 @@ export default function Hero() {
                   </button>
                 </div>
                 <div className="space-y-3">
-                  {users.map((user) => (
+                  {users.map((user) => {
+                    const accountStatus = getAccountStatus(user.isActive);
+                    const kycStatus = getKycStatus(user.flag);
+                   return (
                     <div
                       key={user.id}
                       className="flex items-center justify-between p-5 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 border border-slate-200 hover:shadow-md group"
                     >
                       <div className="flex items-center space-x-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {user.name.charAt(0)}
+                          {user.firstName.charAt(0)}
                         </div>
                         <div>
                           <h3 className="font-semibold text-slate-800 text-lg">
-                            {user.name}
+                            {`${user.firstName} ${user.lastName}`}
                           </h3>
                           <p className="text-slate-500 text-sm">{user.email}</p>
                         </div>
@@ -354,33 +340,32 @@ export default function Hero() {
                             Account Status
                           </p>
                           <span
-                            className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                              user.status
+                            className={`inline-flex items-center space-x-1 mx-auto px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                              accountStatus
                             )}`}
                           >
-                            {getStatusIcon(user.status)}
-                            <span className="capitalize">{user.status}</span>
+                            {getStatusIcon(accountStatus)}
+                            <span className="capitalize">{accountStatus}</span>
                           </span>
                         </div>
-                        <div className="text-right">
+                        <div className="text-center">
                           <p className="text-xs text-slate-500 mb-1">
                             KYC Status
                           </p>
                           <span
-                            className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                              user.kyc
+                            className={`inline-flex items-center space-x-1 m px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                              kycStatus
                             )}`}
                           >
-                            {getStatusIcon(user.kyc)}
-                            <span className="capitalize">{user.kyc}</span>
+                            {getStatusIcon(kycStatus)}
+                            <span className="capitalize">{kycStatus}</span>
                           </span>
                         </div>
                         <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
                           <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
                         </button>
                       </div>
-                    </div>
-                  ))}
+                    </div> ) } )}
                 </div>
               </div>
             )}
@@ -562,7 +547,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes fade-in {
           from {
             opacity: 0;

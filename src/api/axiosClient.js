@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api",
-  withCredentials: true, // 🔥 REQUIRED for cookies
+  baseURL: "http://localhost:3000/admin",
+  withCredentials: true,
 });
 
 api.interceptors.response.use(

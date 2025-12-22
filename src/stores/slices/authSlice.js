@@ -2,7 +2,8 @@ import { adminLogin, getMe } from "../../api/auth.api";
 import api from "../../api/axiosClient";
 
 export const createAuthSlice = (set) => ({
-  admin: null,
+  adminId: null,
+  adminStatus: null,
   isAuthenticated: false,
   authLoading: true,
 
@@ -12,8 +13,11 @@ export const createAuthSlice = (set) => ({
 
       const data = await adminLogin(credentials);
 
+      console.log("Login Response: ", data);
+
       set({
-        admin: data.admin,
+        adminId: data.adminId,
+        adminStatus: data.adminStatus,
         isAuthenticated: true,
         authLoading: false,
       });
@@ -23,7 +27,8 @@ export const createAuthSlice = (set) => ({
       set({ authLoading: false });
       return {
         success: false,
-        message: error.response?.data?.message || "Login failed",
+        message:
+          error.response?.data?.message || error.message || "Login failed",
       };
     }
   },
@@ -35,7 +40,8 @@ export const createAuthSlice = (set) => ({
       const data = await getMe();
 
       set({
-        admin: data.admin,
+        adminId: data.adminId,
+        adminStatus: data.adminStatus,
         isAuthenticated: true,
         authLoading: false,
       });
