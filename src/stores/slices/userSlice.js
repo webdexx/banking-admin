@@ -11,8 +11,6 @@ export const createGetUsersSlice = (set) => ({
 
       const res = await getUsers();
 
-      console.log("Success Users: ", res);
-
       set({
         users: res.data,
         usersLoading: false,

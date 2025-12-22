@@ -6,7 +6,7 @@ export const adminLogin = async (credentials) => {
 };
 
 export const getMe = async () => {
-  const res = await api.get("/reAuth");
+  const res = await api.post("/reAuth");
   console.log(res.data);
   return res.data;
 };

@@ -10,8 +10,7 @@ export default function TwoStepLogin() {
 
   useEffect(() => {
     document.title = "Admin Login";
-    fetchMe();
-  }, [fetchMe]);
+  }, []);
 
   const [formData, setFormData] = useState({
     username: "",

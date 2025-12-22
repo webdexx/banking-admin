@@ -5,7 +5,7 @@ export const createAuthSlice = (set) => ({
   adminId: null,
   adminStatus: null,
   isAuthenticated: false,
-  authLoading: true,
+  authLoading: false,
 
   login: async (credentials) => {
     try {

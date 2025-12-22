@@ -13,26 +13,30 @@ import {
   LuEllipsisVertical,
   LuEye,
   LuClipboardX,
+  LuSquarePen
 } from "react-icons/lu";
 import { useStore } from "../../stores/store.js";
+
+import UsersComp from "./components/UsersComp.jsx";
+import AccountsComp from "./components/AccountsComp.jsx";
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { users, fetchUsers } = useStore();
+  const { accounts, fetchAccounts } = useStore();
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
-
-  console.log(users);
+    fetchAccounts();
+  }, [fetchUsers, fetchAccounts]);
 
   const stats = [
     { label: "Total Users", value: users.length, change: "+10%", icon: LuUsers },
     {
       label: "Active Accounts",
-      value: "45,231",
+      value: accounts.length,
       change: "+8%",
       icon: LuBuilding2,
     },
@@ -47,41 +51,6 @@ export default function Hero() {
       value: "89,234",
       change: "+23%",
       icon: LuArrowLeftRight,
-    },
-  ];
-
-  const accounts = [
-    {
-      id: 1,
-      user: "Sarah Johnson",
-      type: "Savings",
-      balance: "$45,230.00",
-      status: "active",
-      accountNo: "****3847",
-    },
-    {
-      id: 2,
-      user: "Michael Chen",
-      type: "Checking",
-      balance: "$12,450.00",
-      status: "active",
-      accountNo: "****9201",
-    },
-    {
-      id: 3,
-      user: "Emma Williams",
-      type: "Savings",
-      balance: "$89,320.00",
-      status: "frozen",
-      accountNo: "****5632",
-    },
-    {
-      id: 4,
-      user: "James Rodriguez",
-      type: "Checking",
-      balance: "$2,100.00",
-      status: "suspended",
-      accountNo: "****7418",
     },
   ];
 
@@ -154,14 +123,6 @@ export default function Hero() {
       time: "3 hours ago",
     },
   ];
-
-  const getAccountStatus = (isActive) => {
-    return isActive ? "active" : "suspended";
-  };
-
-  const getKycStatus = (flag) => {
-    return flag.toLowerCase(); // "APPROVED" → "approved"
-  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -305,126 +266,11 @@ export default function Hero() {
           {/* Tab Content */}
           <div className="p-8">
             {activeTab === 1 && (
-              <div className="animate-fade-in">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-slate-800">
-                    User Management
-                  </h2>
-                  <button className="px-5 py-2.5 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors font-medium">
-                    Add New User
-                  </button>
-                </div>
-                <div className="space-y-3">
-                  {users.map((user) => {
-                    const accountStatus = getAccountStatus(user.isActive);
-                    const kycStatus = getKycStatus(user.flag);
-                   return (
-                    <div
-                      key={user.id}
-                      className="flex items-center justify-between p-5 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 border border-slate-200 hover:shadow-md group"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {user.firstName.charAt(0)}
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-slate-800 text-lg">
-                            {`${user.firstName} ${user.lastName}`}
-                          </h3>
-                          <p className="text-slate-500 text-sm">{user.email}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-6">
-                        <div className="text-right">
-                          <p className="text-xs text-slate-500 mb-1">
-                            Account Status
-                          </p>
-                          <span
-                            className={`inline-flex items-center space-x-1 mx-auto px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                              accountStatus
-                            )}`}
-                          >
-                            {getStatusIcon(accountStatus)}
-                            <span className="capitalize">{accountStatus}</span>
-                          </span>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-xs text-slate-500 mb-1">
-                            KYC Status
-                          </p>
-                          <span
-                            className={`inline-flex items-center space-x-1 m px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                              kycStatus
-                            )}`}
-                          >
-                            {getStatusIcon(kycStatus)}
-                            <span className="capitalize">{kycStatus}</span>
-                          </span>
-                        </div>
-                        <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
-                          <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
-                        </button>
-                      </div>
-                    </div> ) } )}
-                </div>
-              </div>
+                  <UsersComp />
             )}
 
             {activeTab === 2 && (
-              <div className="animate-fade-in">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-slate-800">
-                    Account Management
-                  </h2>
-                  <button className="px-5 py-2.5 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors font-medium">
-                    Create Account
-                  </button>
-                </div>
-                <div className="space-y-3">
-                  {accounts.map((account) => (
-                    <div
-                      key={account.id}
-                      className="flex items-center justify-between p-5 bg-slate-50 rounded-xl hover:bg-slate-100 transition-all duration-300 border border-slate-200 hover:shadow-md group"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center">
-                          <LuBuilding2 className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-slate-800 text-lg">
-                            {account.user}
-                          </h3>
-                          <p className="text-slate-500 text-sm">
-                            {account.type} • {account.accountNo}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-6">
-                        <div className="text-right">
-                          <p className="text-xs text-slate-500 mb-1">Balance</p>
-                          <p className="text-xl font-bold text-slate-800">
-                            {account.balance}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-xs text-slate-500 mb-1">Status</p>
-                          <span
-                            className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
-                              account.status
-                            )}`}
-                          >
-                            {getStatusIcon(account.status)}
-                            <span className="capitalize">{account.status}</span>
-                          </span>
-                        </div>
-                        <button className="p-2 hover:bg-slate-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
-                          <LuEllipsisVertical className="w-5 h-5 text-slate-600" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <AccountsComp />
             )}
 
             {activeTab === 3 && (
