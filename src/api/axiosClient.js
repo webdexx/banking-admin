@@ -15,4 +15,4 @@ api.interceptors.response.use(
   }
 );
 
-export default axiosClient;
+export default api;

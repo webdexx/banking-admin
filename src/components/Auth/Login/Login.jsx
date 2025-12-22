@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { LuLock, LuUserRound, LuKeyRound } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
-import { useStore } from "zustand";
+//import { useNavigate } from "react-router-dom";
+import { useStore } from "../../../stores/store";
 
 export default function TwoStepLogin() {
-  const navigate = useNavigate();
+//  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const login = useStore((s) => s.login);
 
@@ -40,7 +40,7 @@ export default function TwoStepLogin() {
       setError(result.message);
     }
 
-    navigate("/", { replace: true });
+  //  navigate("/", { replace: true });
   };
 
   /* ---------------- PIN HANDLERS ---------------- */
@@ -88,18 +88,17 @@ export default function TwoStepLogin() {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             Welcome Back
           </h1>
-          <p className="text-gray-600">Step {step} of 2</p>
         </div>
 
         {/* Progress */}
         <div className="flex gap-2 mb-8">
           <div
-            className={`h-2 flex-1 rounded-full ${
+            className={`h-1 flex-1 ${
               step >= 1 ? "bg-sky-500" : "bg-gray-200"
             }`}
           />
           <div
-            className={`h-2 flex-1 rounded-full ${
+            className={`h-1 flex-1 duration-300 ease-in-out ${
               step >= 2 ? "bg-sky-500" : "bg-gray-200"
             }`}
           />
@@ -110,7 +109,7 @@ export default function TwoStepLogin() {
           {step === 1 && (
             <div>
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <label className="block text-sm font-medium my-2">
                   Username
                 </label>
                 <div className="relative">
@@ -131,7 +130,7 @@ export default function TwoStepLogin() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">
+                <label className="block text-sm font-medium my-2">
                   Password
                 </label>
                 <div className="relative">
@@ -157,7 +156,8 @@ export default function TwoStepLogin() {
 
               <button
                 type="button"
-                className="w-full bg-sky-600 text-white py-3 rounded-lg font-semibold"
+                className="w-full bg-sky-600 text-white py-3 rounded-lg font-semibold mt-6 mb-4 hover:bg-sky-800 cursor-pointer"
+                onClick={() => setStep(2)}
               >
                 Continue
               </button>
@@ -169,7 +169,7 @@ export default function TwoStepLogin() {
             <div>
               <div className="text-center">
                 <LuKeyRound className="w-12 h-12 mx-auto text-sky-800 mb-3" />
-                <h2 className="text-xl font-semibold">Enter Your PIN</h2>
+                <h2 className="text-xl font-semibold mb-4">Enter Your PIN</h2>
               </div>
 
               <div className="flex justify-center gap-3">
@@ -193,7 +193,7 @@ export default function TwoStepLogin() {
 
               <button
                 onClick={handleLogin}
-                className="w-full bg-sky-700 text-white py-3 rounded-lg"
+                className="w-full bg-sky-600 text-white py-3 rounded-lg font-semibold mt-6 mb-4 hover:bg-sky-800 cursor-pointer"
               >
                 Login
               </button>
@@ -201,7 +201,7 @@ export default function TwoStepLogin() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="w-full bg-gray-100 py-3 rounded-lg"
+                className="w-full bg-gray-200 py-3 rounded-lg font-semibold mb-4 hover:bg-stone-300 cursor-pointer"
               >
                 Back
               </button>
