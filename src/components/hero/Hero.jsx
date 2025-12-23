@@ -13,7 +13,6 @@ import {
   LuEllipsisVertical,
   LuEye,
   LuClipboardX,
-  LuSquarePen
 } from "react-icons/lu";
 import { useStore } from "../../stores/store.js";
 

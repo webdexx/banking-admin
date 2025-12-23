@@ -6,7 +6,8 @@ import { useStore } from "../../../stores/store";
 export default function TwoStepLogin() {
    const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  const { login, fetchMe, isAuthenticated, authLoading } = useStore();
+  const login = useStore((s) => s.login);
+  const authLoading = useStore((s) => s.authLoading);
 
   useEffect(() => {
     document.title = "Admin Login";
@@ -52,10 +53,7 @@ export default function TwoStepLogin() {
       return;
     }
 
-    if(isAuthenticated) {
      navigate("/admin", { replace: true });
-    }
-
   };
 
   /* ---------------- PIN HANDLERS ---------------- */

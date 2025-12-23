@@ -4,6 +4,10 @@ import api from "../../api/axiosClient";
 export const createAuthSlice = (set) => ({
   adminId: null,
   adminStatus: null,
+  adminRole: null,
+  adminName: null,
+  adminEmail: null,
+  adminMobile: null,
   isAuthenticated: false,
   authLoading: false,
 
@@ -13,11 +17,13 @@ export const createAuthSlice = (set) => ({
 
       const data = await adminLogin(credentials);
 
-      console.log("Login Response: ", data);
-
       set({
-        adminId: data.adminId,
-        adminStatus: data.adminStatus,
+        adminId: data.admin.adminId,
+        adminStatus: data.admin.status,
+        adminRole: data.admin.role,
+        adminName: data.admin.name,
+        adminEmail: data.admin.email,
+        adminMobile: data.admin.mobileNo,
         isAuthenticated: true,
         authLoading: false,
       });
@@ -40,14 +46,23 @@ export const createAuthSlice = (set) => ({
       const data = await getMe();
 
       set({
-        adminId: data.adminId,
-        adminStatus: data.adminStatus,
+        adminId: data.admin.adminId,
+        adminStatus: data.admin.status,
+        adminRole: data.admin.role,
+        adminName: data.admin.name,
+        adminEmail: data.admin.email,
+        adminMobile: data.admin.mobileNo,
         isAuthenticated: true,
         authLoading: false,
       });
     } catch {
       set({
-        admin: null,
+        adminId: null,
+        adminStatus: null,
+        adminRole: null,
+        adminName: null,
+        adminEmail: null,
+        adminMobile: null,
         isAuthenticated: false,
         authLoading: false,
       });
@@ -55,7 +70,16 @@ export const createAuthSlice = (set) => ({
   },
 
   logout: async () => {
-    await api.post("/admin/logout"); // optional
-    set({ admin: null, isAuthenticated: false });
+    await api.post("/logout"); // optional
+    set({
+      adminId: null,
+      adminStatus: null,
+      adminRole: null,
+      adminName: null,
+      adminEmail: null,
+      adminMobile: null,
+      authLoading: false,
+      isAuthenticated: false,
+    });
   },
 });
