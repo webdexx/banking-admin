@@ -8,6 +8,9 @@ export default function TwoStepLogin() {
   const [step, setStep] = useState(1);
   const login = useStore((s) => s.login);
   const authLoading = useStore((s) => s.authLoading);
+  const adminId = useStore((s) => s.adminId);
+
+  console.log(adminId);
 
   useEffect(() => {
     document.title = "Admin Login";
